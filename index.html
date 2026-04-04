@@ -190,13 +190,13 @@
       var date = fm.date || filename.replace('.md', '');
       var title = fm.title || filename.replace('.md', '').replace(/-/g, ' ');
       var desc = fm.description || '';
-      var url = 'https://github.com/' + REPO + '/blob/' + BRANCH + '/blog/' + filename;
+      var url = 'blog.html?post=' + filename;
 
       var a = document.createElement('a');
       a.className = 'post-card';
       a.href = url;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
+      
+      
       a.innerHTML =
         '<div class="post-card__date">' + formatDate(String(date)) + '</div>' +
         '<div class="post-card__title">' + escHtml(title) + '</div>' +

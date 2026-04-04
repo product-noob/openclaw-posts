@@ -1,1461 +1,2642 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Morning Brief — 2026-04-04</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0f0f0f;
-      color: #e8e8e8;
-      line-height: 1.6;
-      padding: 2rem 1rem;
+    /* ─── Design Tokens ─── */
+    :root {
+      --bg: #FAFAF9;
+      --surface: #FFFFFF;
+      --surface-hover: #F5F5F4;
+      --border: #E7E5E4;
+      --text: #1C1917;
+      --text-muted: #78716C;
+      --text-faint: #A8A29E;
+      --accent: #2563EB;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+      --shadow: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -2px rgba(0,0,0,.04);
+      --radius: 10px;
+      /* Topic colors */
+      --c-agentic-bg: #F3E8FF; --c-agentic-text: #7C3AED;
+      --c-commerce-bg: #DBEAFE; --c-commerce-text: #1D4ED8;
+      --c-pm-bg: #FEF3C7; --c-pm-text: #92400E;
+      --c-models-bg: #FEE2E2; --c-models-text: #991B1B;
+      --c-breakthroughs-bg: #DCFCE7; --c-breakthroughs-text: #166534;
     }
-    a { color: #7eb8f7; text-decoration: none; }
+    [data-theme="dark"] {
+      --bg: #111110;
+      --surface: #1C1917;
+      --surface-hover: #292524;
+      --border: #292524;
+      --text: #FAFAF9;
+      --text-muted: #A8A29E;
+      --text-faint: #57534E;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.3);
+      --shadow: 0 1px 3px rgba(0,0,0,.4);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.5);
+      /* Topic colors dark */
+      --c-agentic-bg: #2E1065; --c-agentic-text: #C4B5FD;
+      --c-commerce-bg: #1E3A5F; --c-commerce-text: #93C5FD;
+      --c-pm-bg: #451A03; --c-pm-text: #FDE68A;
+      --c-models-bg: #450A0A; --c-models-text: #FCA5A5;
+      --c-breakthroughs-bg: #052E16; --c-breakthroughs-text: #86EFAC;
+    }
+
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ── Layout ── */
-    .container { max-width: 720px; margin: 0 auto; }
-
-    /* ── Header ── */
-    header { margin-bottom: 2.5rem; border-bottom: 1px solid #2a2a2a; padding-bottom: 1.5rem; }
-    header h1 { font-size: 1.5rem; font-weight: 600; color: #fff; }
-    header .meta { font-size: 0.85rem; color: #777; margin-top: 0.25rem; }
-
-    /* ── Section ── */
-    section { margin-bottom: 2.5rem; }
-    section h2 {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #555;
-      margin-bottom: 1rem;
+    /* ─── Site Header ─── */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
-
-    /* ── Cards ── */
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #252525;
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .card:hover { border-color: #333; }
-    .card .source {
-      font-size: 0.75rem;
-      color: #555;
-      margin-bottom: 0.35rem;
-    }
-    .card h3 { font-size: 1rem; font-weight: 600; color: #f0f0f0; margin-bottom: 0.5rem; }
-    .card p { font-size: 0.9rem; color: #aaa; margin-bottom: 0.75rem; }
-    .card .footer {
+    .site-header__inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
+    }
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      flex-shrink: 0;
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .back-link:hover { background: var(--surface-hover); color: var(--text); text-decoration: none; }
+    .site-header__brand {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.775rem;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { background: var(--surface-hover); color: var(--text); }
+
+    /* ─── Layout ─── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    /* ─── Digest Header ─── */
+    .digest-header {
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .digest-header__date {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      line-height: 1.2;
+    }
+    .digest-header__meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.5rem;
+    }
+    .meta-sep { color: var(--text-faint); }
+
+    /* ─── Jump Nav ─── */
+    .jump-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+    }
+    .jump-nav__heading {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-faint);
+      margin-right: 0.25rem;
+    }
+    .jump-nav__link {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      text-decoration: none;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap;
+    }
+    .jump-nav__link:hover { background: var(--surface-hover); color: var(--text); text-decoration: none; }
+
+    /* ─── Topic Section ─── */
+    .topic-section { margin-bottom: 2.5rem; }
+    .topic-section__header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.625rem;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 1rem;
+    }
+    .topic-section__label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+    }
+
+    /* ─── Article Card ─── */
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.375rem;
+      margin-bottom: 0.625rem;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .article-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #D6D3D1;
+    }
+    [data-theme="dark"] .article-card:hover { border-color: #44403C; }
+
+    .article-card__top {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
       flex-wrap: wrap;
     }
-    .card .link { font-size: 0.8rem; }
-    .tag {
-      display: inline-block;
-      background: #252525;
-      border: 1px solid #333;
+    .source-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-faint);
+      background: var(--surface-hover);
       border-radius: 4px;
-      font-size: 0.7rem;
-      color: #888;
-      padding: 0.15rem 0.5rem;
+      padding: 0.15rem 0.45rem;
     }
-    .score {
+    .score-badge {
       margin-left: auto;
-      font-size: 0.75rem;
-      color: #555;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: var(--surface-hover);
+      color: var(--text-faint);
+    }
+    .score-badge--high { color: #16A34A; background: var(--c-breakthroughs-bg); }
+    .score-badge--mid  { color: #D97706; background: var(--c-pm-bg); }
+
+    .article-card__title {
+      font-size: 0.975rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    .article-card__title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .article-card__title a:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
-    /* ── Empty State ── */
-    .empty { color: #444; font-size: 0.9rem; font-style: italic; }
+    .article-card__summary {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 0.75rem;
+    }
 
-    /* ── Footer ── */
-    footer {
+    .article-card__why {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-left: 2px solid var(--accent);
+      padding-left: 0.7rem;
+      margin-bottom: 0.875rem;
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    .article-card__footer {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .read-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-right: 0.25rem;
+    }
+    .read-link:hover { text-decoration: underline; }
+
+    /* ─── Topic Tags ─── */
+    .topic-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      border-radius: 20px;
+      padding: 0.2rem 0.55rem;
+      white-space: nowrap;
+    }
+    .topic-tag--agentic_ai              { background: var(--c-agentic-bg);        color: var(--c-agentic-text); }
+    .topic-tag--conversational_commerce { background: var(--c-commerce-bg);       color: var(--c-commerce-text); }
+    .topic-tag--ai_pm_productivity      { background: var(--c-pm-bg);             color: var(--c-pm-text); }
+    .topic-tag--model_launches          { background: var(--c-models-bg);         color: var(--c-models-text); }
+    .topic-tag--ai_breakthroughs        { background: var(--c-breakthroughs-bg);  color: var(--c-breakthroughs-text); }
+
+    /* ─── Video Cards ─── */
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.125rem 1.375rem;
+      margin-bottom: 0.625rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: box-shadow 0.15s;
+    }
+    .video-card:hover { box-shadow: var(--shadow-md); }
+    .video-play-icon {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--c-models-bg);
+      color: var(--c-models-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      padding-left: 2px;
+    }
+    .video-card__body { flex: 1; min-width: 0; }
+    .video-card__channel {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-faint);
+      margin-bottom: 0.3rem;
+    }
+    .video-card__title {
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+    .video-card__title a { color: inherit; }
+    .video-card__title a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    .video-card__summary {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ─── Empty State ─── */
+    .empty-state {
+      padding: 2.5rem;
+      text-align: center;
+      color: var(--text-faint);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    /* ─── Footer ─── */
+    .page-footer {
       margin-top: 3rem;
       padding-top: 1.5rem;
-      border-top: 1px solid #1e1e1e;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       font-size: 0.75rem;
-      color: #3a3a3a;
-      text-align: center;
+      color: var(--text-faint);
+    }
+    .page-footer a { color: var(--text-faint); }
+    .page-footer a:hover { color: var(--text-muted); text-decoration: underline; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      .container { padding: 1.25rem 0.875rem 2.5rem; }
+      .digest-header__date { font-size: 1.3rem; }
+      .article-card { padding: 1rem 1.125rem; }
+      .site-header__inner { padding: 0.625rem 0.875rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <header>
-      <h1>☀️ Morning Brief</h1>
-      <div class="meta">
-        2026-04-04
-        &nbsp;·&nbsp;
-        90 articles
-        &nbsp;·&nbsp;
-        4 videos
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="../index.html" class="back-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        All digests
+      </a>
+      <span class="site-header__brand">☀️ Morning Brief</span>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" aria-label="Toggle theme">
+        <svg id="sun-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="moon-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span id="theme-label">Dark</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="digest-header">
+      <h1 class="digest-header__date">April 4, 2026</h1>
+      <div class="digest-header__meta">
+        <span>90 articles</span>
+        
+          <span class="meta-sep">·</span>
+          <span>4 videos</span>
+        
       </div>
-    </header>
+    </div>
 
-    <!-- ── Articles ── -->
-    <section>
-      <h2>Articles</h2>
+    <!-- Jump navigation -->
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
 
+    
+    <nav class="jump-nav" aria-label="Jump to section">
+      <span class="jump-nav__heading">Jump:</span>
       
         
-        <div class="card">
-          <div class="source">openai_blog</div>
-          <h3>Gradient Labs gives every bank customer an AI account manager</h3>
-          <p>**Banks are moving to AI account managers:** Gradient Labs is using GPT-4.1 and GPT-5.4 mini/nano to automate customer support workflows with low latency and high reliability. A strong signal that domain-specific agentic AI is becoming production-ready for regulated, high-trust customer journeys.</p>
-          <div class="footer">
-            <a class="link" href="https://openai.com/index/gradient-labs" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">Conversational Commerce</span>
-            
-            <span class="score">80% relevant</span>
-          </div>
-        </div>
+        <a class="jump-nav__link" href="#topic-agentic_ai">
+          🤖 Agentic AI
+        </a>
         
-        <div class="card">
-          <div class="source">deepmind_blog</div>
-          <h3>Gemma 4: Byte for byte, the most capable open models</h3>
-          <p>**Gemma 4 is DeepMind’s strongest open model family yet**, optimized for advanced reasoning and agentic workflows. The headline claim is efficiency: “byte for byte” among the most capable open models, making it relevant for practical deployment.</p>
-          <div class="footer">
-            <a class="link" href="https://deepmind.google/blog/gemma-4-byte-for-byte-the-most-capable-open-models/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">80% relevant</span>
-          </div>
-        </div>
+      
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Highlights from my conversation about agentic engineering on Lenny's Podcast</h3>
-          <p>**Key insight:** coding agents have crossed an inflection point where they usually produce usable software, shifting the bottleneck from implementation to testing, evaluation, and product judgment.
+        <a class="jump-nav__link" href="#topic-conversational_commerce">
+          🛒 Conversational Commerce
+        </a>
+        
+      
+        
+        <a class="jump-nav__link" href="#topic-ai_pm_productivity">
+          ⚡ AI / PM Productivity
+        </a>
+        
+      
+        
+        <a class="jump-nav__link" href="#topic-model_launches">
+          🚀 Model Launches
+        </a>
+        
+      
+        
+        <a class="jump-nav__link" href="#topic-ai_breakthroughs">
+          🔬 AI Breakthroughs
+        </a>
+        
+      
+        
+        <a class="jump-nav__link" href="#topic-other">
+           
+        </a>
+        
+      
+      
+      <a class="jump-nav__link" href="#videos">🎬 Videos</a>
+      
+    </nav>
+    
+
+    <!-- Topic sections -->
+    
+      
+      <section class="topic-section" id="topic-agentic_ai">
+        <div class="topic-section__header">
+          <span>🤖</span>
+          <span class="topic-section__label">Agentic AI</span>
+        </div>
+
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">openai_blog</span>
+            <span class="score-badge score-badge--high">
+              8/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://openai.com/index/gradient-labs" target="_blank" rel="noopener noreferrer">Gradient Labs gives every bank customer an AI account manager</a>
+          </h3>
+          
+          <p class="article-card__summary">**Banks are moving to AI account managers:** Gradient Labs is using GPT-4.1 and GPT-5.4 mini/nano to automate customer support workflows with low latency and high reliability. A strong signal that domain-specific agentic AI is becoming production-ready for regulated, high-trust customer journeys.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://openai.com/index/gradient-labs" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+              <span class="topic-tag topic-tag--conversational_commerce">Conversational Commerce</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--high">
+              8/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/2/lennys-podcast/#atom-everything" target="_blank" rel="noopener noreferrer">Highlights from my conversation about agentic engineering on Lenny's Podcast</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** coding agents have crossed an inflection point where they usually produce usable software, shifting the bottleneck from implementation to testing, evaluation, and product judgment.
 For PMs, this means prototypes are nearly free, but reliability, safety, and human review become the core leverage points—especially before shipping anything customer-facing.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/2/lennys-podcast/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/2/lennys-podcast/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">80% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ethan_mollick</div>
-          <h3>Claude Dispatch and the Power of Interfaces</h3>
-          <p>**Key insight:** AI capability is increasingly bottlenecked by interface, not model quality. Mollick argues chat UIs impose a real cognitive tax, while agentic interfaces like Claude Dispatch unlock more useful work by fitting into familiar workflows like phone messaging + desktop control.
-For product teams, the opportunity is clear: move from generic chat to task-native, low-friction agent experiences that reduce cognitive overload and let users supervise work asynchronously.</p>
-          <div class="footer">
-            <a class="link" href="https://www.oneusefulthing.org/p/claude-dispatch-and-the-power-of" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">80% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge score-badge--high">
+              8/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Here's what that Claude Code source leak reveals about Anthropic's plans</h3>
-          <p>**Anthropic may be building a background, proactive coding agent.** A Claude Code leak points to “Kairos,” a persistent daemon with memory, periodic self-checks, and a PROACTIVE mode to surface things users didn’t explicitly ask for.
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/04/heres-what-that-claude-code-source-leak-reveals-about-anthropics-plans/" target="_blank" rel="noopener noreferrer">Here's what that Claude Code source leak reveals about Anthropic's plans</a>
+          </h3>
+          
+          <p class="article-card__summary">**Anthropic may be building a background, proactive coding agent.** A Claude Code leak points to “Kairos,” a persistent daemon with memory, periodic self-checks, and a PROACTIVE mode to surface things users didn’t explicitly ask for.
 This suggests the roadmap is shifting from reactive copilots to always-on agents that remember user preferences and act across sessions.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/04/heres-what-that-claude-code-source-leak-reveals-about-anthropics-plans/" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/04/heres-what-that-claude-code-source-leak-reveals-about-anthropics-plans/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">80% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">openai_blog</div>
-          <h3>Codex now offers more flexible pricing for teams</h3>
-          <p>**OpenAI added pay-as-you-go pricing for Codex** in ChatGPT Business and Enterprise. This lowers the commitment barrier for teams and makes it easier to pilot, then scale, agentic coding workflows based on actual usage.</p>
-          <div class="footer">
-            <a class="link" href="https://openai.com/index/codex-flexible-pricing-for-teams" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">70% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">openai_blog</span>
+            <span class="score-badge score-badge--mid">
+              7/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">openai_blog</div>
-          <h3>Accelerating the next phase of AI</h3>
-          <p>**OpenAI has raised $122B** to scale frontier AI globally, doubling down on next-gen compute and expanding capacity for ChatGPT, Codex, and enterprise AI. This signals an even faster race on infrastructure, model capability, and enterprise adoption.</p>
-          <div class="footer">
-            <a class="link" href="https://openai.com/index/accelerating-the-next-phase-ai" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://openai.com/index/codex-flexible-pricing-for-teams" target="_blank" rel="noopener noreferrer">Codex now offers more flexible pricing for teams</a>
+          </h3>
+          
+          <p class="article-card__summary">**OpenAI added pay-as-you-go pricing for Codex** in ChatGPT Business and Enterprise. This lowers the commitment barrier for teams and makes it easier to pilot, then scale, agentic coding workflows based on actual usage.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://openai.com/index/codex-flexible-pricing-for-teams" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">70% relevant</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Gemma 4: Byte for byte, the most capable open models</h3>
-          <p>**Google DeepMind’s Gemma 4 pushes small open models forward**: new Apache 2.0 multimodal models (2B, 4B, 31B, and 26B-A4B MoE) emphasize unusually high intelligence-per-parameter, with the smaller variants optimized for on-device use. Notably, all handle images/video, and the 2B/4B models also support native audio input—strong signals for compact multimodal assistants.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/2/gemma-4/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">70% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge score-badge--mid">
+              7/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Salesforce announces an AI-heavy makeover for Slack, with 30 new features</h3>
-          <p>**Slack is becoming an AI-first work OS.** Salesforce announced 30 new AI features for Slack, centered on enterprise search, agentic assistance, meeting/workflow automation, and tighter integration across Salesforce apps.
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/03/31/salesforce-announces-an-ai-heavy-makeover-for-slack-with-30-new-features/" target="_blank" rel="noopener noreferrer">Salesforce announces an AI-heavy makeover for Slack, with 30 new features</a>
+          </h3>
+          
+          <p class="article-card__summary">**Slack is becoming an AI-first work OS.** Salesforce announced 30 new AI features for Slack, centered on enterprise search, agentic assistance, meeting/workflow automation, and tighter integration across Salesforce apps.
 For PM orgs, the big takeaway is a more proactive workplace assistant that can summarize, retrieve context, and execute tasks inside daily collaboration flows.</p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/03/31/salesforce-announces-an-ai-heavy-makeover-for-slack-with-30-new-features/" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/03/31/salesforce-announces-an-ai-heavy-makeover-for-slack-with-30-new-features/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">70% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Alexa+ gets new food ordering experiences with Uber Eats and Grubhub</h3>
-          <p>**Amazon is pushing Alexa+ deeper into conversational commerce** with food ordering via Uber Eats and Grubhub. The experience is designed to feel like chatting with a waiter or ordering at a drive-thru, signaling more natural, agent-like purchase flows.</p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/03/31/alexa-plus-new-food-ordering-experiences-with-uber-eats-and-grubhub/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Conversational Commerce</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">70% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">google_ai_blog</div>
-          <h3>New ways to balance cost and reliability in the Gemini API</h3>
-          <p>**Google added Flex and Priority tiers to the Gemini API** to let teams trade off cost vs latency/reliability more explicitly. This makes production GenAI deployment more tunable: cheaper async/batch-style usage with Flex, and more predictable low-latency capacity with Priority.</p>
-          <div class="footer">
-            <a class="link" href="https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/vulnerability-research-is-cooked/#atom-everything" target="_blank" rel="noopener noreferrer">Vulnerability Research Is Cooked</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Frontier coding agents may cause a step-function jump in vulnerability research, making exploit discovery dramatically faster and cheaper. Ptacek argues that soon, much high-impact vuln research could look like pointing an agent at a codebase and asking it to find zero-days.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/vulnerability-research-is-cooked/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">60% relevant</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">google_ai_blog</div>
-          <h3>The latest AI news we announced in March 2026</h3>
-          <p>**Google’s March 2026 AI roundup signals continued rapid platform expansion** across models, developer tools, and product integrations. The post is a monthly rollup rather than a single launch, indicating Google is packaging AI progress as an ongoing release cadence.</p>
-          <div class="footer">
-            <a class="link" href="https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-march-2026/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Vulnerability Research Is Cooked</h3>
-          <p>**Key insight:** Frontier coding agents may cause a step-function jump in vulnerability research, making exploit discovery dramatically faster and cheaper. Ptacek argues that soon, much high-impact vuln research could look like pointing an agent at a codebase and asking it to find zero-days.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/vulnerability-research-is-cooked/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/2/march-newsletter/#atom-everything" target="_blank" rel="noopener noreferrer">March 2026 sponsors-only newsletter</a>
+          </h3>
+          
+          <p class="article-card__summary">Key insight: Simon Willison’s March 2026 sponsors-only newsletter curates practical **agentic engineering patterns**, March model releases, local MoE streaming on a Mac, and software supply-chain attack lessons from PyPI/NPM. It’s less a single news drop and more a high-signal operator digest on what AI builders should watch and adopt.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/2/march-newsletter/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">60% relevant</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>llm-gemini 0.30</h3>
-          <p>**llm-gemini 0.30 adds support for new Google models**: gemini-3.1-flash-lite-preview, gemma-4-26b-a4b-it, and gemma-4-31b-it. This signals more lightweight and open-weight options for developers testing latency/cost vs quality trade-offs.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/2/llm-gemini/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>March 2026 sponsors-only newsletter</h3>
-          <p>Key insight: Simon Willison’s March 2026 sponsors-only newsletter curates practical **agentic engineering patterns**, March model releases, local MoE streaming on a Mac, and software supply-chain attack lessons from PyPI/NPM. It’s less a single news drop and more a high-signal operator digest on what AI builders should watch and adopt.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/2/march-newsletter/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/soohoon-choi/#atom-everything" target="_blank" rel="noopener noreferrer">Quoting Soohoon Choi</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Soohoon Choi argues AI-generated code will improve over time because market incentives favor simple, reliable, maintainable code—not “slop.” In a highly competitive model market, the winners will be the ones that help teams ship dependable features fastest and cheapest.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/soohoon-choi/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-              <span class="tag">AI Breakthroughs</span>
-            
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Quoting Soohoon Choi</h3>
-          <p>**Key insight:** Soohoon Choi argues AI-generated code will improve over time because market incentives favor simple, reliable, maintainable code—not “slop.” In a highly competitive model market, the winners will be the ones that help teams ship dependable features fastest and cheapest.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/soohoon-choi/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>llm-all-models-async 0.1</h3>
-          <p>**Key insight:** Simon Willison shipped `llm-all-models-async 0.1`, a plugin that wraps sync-only LLM models as async using a thread pool, enabled by a new plugin hook in `LLM 0.30`.
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/31/llm-all-models-async/#atom-everything" target="_blank" rel="noopener noreferrer">llm-all-models-async 0.1</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Simon Willison shipped `llm-all-models-async 0.1`, a plugin that wraps sync-only LLM models as async using a thread pool, enabled by a new plugin hook in `LLM 0.30`.
 This expands compatibility with async-only tooling like Datasette enrichments, making more local/plugin-based models usable in modern agentic workflows.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/31/llm-all-models-async/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/31/llm-all-models-async/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>llm-echo 0.3</h3>
-          <p>**Key insight:** llm-echo 0.3 adds better test harnesses for LLM apps—especially for validating tool calls, raw model responses, and API key handling.
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/31/llm-echo-2/#atom-everything" target="_blank" rel="noopener noreferrer">llm-echo 0.3</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** llm-echo 0.3 adds better test harnesses for LLM apps—especially for validating tool calls, raw model responses, and API key handling.
 Useful for teams building agentic workflows where reliability, observability, and test coverage matter before production rollout.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/31/llm-echo-2/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/31/llm-echo-2/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Quoting Georgi Gerganov</h3>
-          <p>**Key insight:** Local coding agents often fail not because the base model is weak, but because the surrounding stack—chat templates, prompt construction, harnesses, and inference layers—is fragile and inconsistently built.
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/30/georgi-gerganov/#atom-everything" target="_blank" rel="noopener noreferrer">Quoting Georgi Gerganov</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Local coding agents often fail not because the base model is weak, but because the surrounding stack—chat templates, prompt construction, harnesses, and inference layers—is fragile and inconsistently built.
 Georgi Gerganov’s point: what people observe with local models is likely still subtly broken somewhere in that chain, making reliable evaluation and deployment hard.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/30/georgi-gerganov/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/30/georgi-gerganov/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
             
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ben_thompson</div>
-          <h3>Axios Supply Chain Attack, Claude Code Code Leaked, AI and Security</h3>
-          <p>**Key insight:** AI will likely worsen cybersecurity in the near term by making attacks easier and faster, but over time it should outperform humans at defense. For product teams, this means planning for a messy transition period where AI boosts both attackers and defenders.</p>
-          <div class="footer">
-            <a class="link" href="https://stratechery.com/2026/axios-supply-chain-attack-claude-code-code-leaked-ai-and-security/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>OpenClaw gives users yet another reason to be freaked out about security</h3>
-          <p>**Key insight:** OpenClaw’s latest critical flaw shows the core risk of agentic AI: if an agent has broad device/app permissions, a small auth bug can turn into full admin takeover. One patched vuln let even low-privilege paired users escalate to admin and inherit access to Slack, Discord, files, sessions, and more.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/security/2026/04/heres-why-its-prudent-for-openclaw-users-to-assume-compromise/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/security/2026/04/heres-why-its-prudent-for-openclaw-users-to-assume-compromise/" target="_blank" rel="noopener noreferrer">OpenClaw gives users yet another reason to be freaked out about security</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** OpenClaw’s latest critical flaw shows the core risk of agentic AI: if an agent has broad device/app permissions, a small auth bug can turn into full admin takeover. One patched vuln let even low-privilege paired users escalate to admin and inherit access to Slack, Discord, files, sessions, and more.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/security/2026/04/heres-why-its-prudent-for-openclaw-users-to-assume-compromise/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Perplexity's "Incognito Mode" is a "sham," lawsuit says</h3>
-          <p>**Perplexity’s “Incognito Mode” is under legal fire:** a lawsuit alleges user prompts—and sometimes entire chat sessions—were shared with Google/Meta, including for non-logged-in users. Big reminder that “private” AI UX claims can become major product and trust liabilities.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/tech-policy/2026/04/perplexitys-incognito-mode-is-a-sham-lawsuit-says/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Conversational Commerce</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Google announces Gemma 4 open AI models, switches to Apache 2.0 license</h3>
-          <p>**Google launched Gemma 4 and moved it to Apache 2.0**, removing the custom license friction that held back broader developer adoption. The new lineup is optimized for local inference, with a 26B MoE model tuned for speed and a 31B dense model aimed at higher-quality fine-tuning.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/04/google-announces-gemma-4-open-ai-models-switches-to-apache-2-0-license/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/03/entire-claude-code-cli-source-code-leaks-thanks-to-exposed-map-file/" target="_blank" rel="noopener noreferrer">Entire Claude Code CLI source code leaks thanks to exposed map file</a>
+          </h3>
+          
+          <p class="article-card__summary">**Anthropic accidentally leaked the full Claude Code CLI source** by shipping a source map in npm v2.1.88, exposing ~2,000 TypeScript files and 512k+ lines of code. This doesn’t expose Claude models, but it gives rivals a detailed playbook for agentic coding UX, tooling, and product design.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/03/entire-claude-code-cli-source-code-leaks-thanks-to-exposed-map-file/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Entire Claude Code CLI source code leaks thanks to exposed map file</h3>
-          <p>**Anthropic accidentally leaked the full Claude Code CLI source** by shipping a source map in npm v2.1.88, exposing ~2,000 TypeScript files and 512k+ lines of code. This doesn’t expose Claude models, but it gives rivals a detailed playbook for agentic coding UX, tooling, and product design.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/03/entire-claude-code-cli-source-code-leaks-thanks-to-exposed-map-file/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>PSA: Anyone with a link can view your Granola notes by default</h3>
-          <p>**Key insight:** Granola notes are effectively shareable-by-link by default, despite being described as “private by default,” and user notes may also be used for internal AI training unless you opt out.
-For anyone using AI meeting tools, this is a reminder to audit default sharing + training settings before exposing sensitive product, customer, or business discussions.</p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/ai-artificial-intelligence/906253/granola-note-links-ai-training-psa" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">60% relevant</span>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>Google Home’s latest update makes Gemini better at understanding your commands</h3>
-          <p>**Key insight:** Google is making Gemini in Home much better at understanding natural-language smart home commands, including descriptive prompts like “the color of the ocean” and precise appliance/climate controls.
-This is a clear signal that multimodal/agentic assistants are moving from rigid command syntax to intent-first execution with better device grounding.</p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/tech/905805/google-home-gemini-temperature-controls-lighting" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Conversational Commerce</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">60% relevant</span>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>The Facebook insider building content moderation for the AI era</h3>
-          <p>**Key insight:** Moonbounce raised **$12M** to build an AI control engine that turns moderation policies into consistent, predictable model behavior.
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/moonbounce-fundraise-content-moderation-for-the-ai-era/" target="_blank" rel="noopener noreferrer">The Facebook insider building content moderation for the AI era</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Moonbounce raised **$12M** to build an AI control engine that turns moderation policies into consistent, predictable model behavior.
 This points to a growing infra layer for making AI agents safer, more governable, and easier to deploy in consumer-facing products.</p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/moonbounce-fundraise-content-moderation-for-the-ai-era/" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/moonbounce-fundraise-content-moderation-for-the-ai-era/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">60% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Microsoft takes on AI rivals with three new foundational models</h3>
-          <p>**Microsoft is broadening its AI stack with three new MAI foundation models** focused on speech-to-text, audio generation, and image generation. The move signals a push to reduce dependence on external model providers and compete more directly across multimodal AI.</p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/02/microsoft-takes-on-ai-rivals-with-three-new-foundational-models/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">60% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">openai_blog</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>OpenAI, not yet public, raises $3B from retail investors in monster $122B fund raise</h3>
-          <p>**OpenAI has raised $122B at an $852B valuation**, with Amazon, Nvidia, and SoftBank leading — one of the biggest private AI financings ever. The move signals massive confidence in frontier model economics and suggests OpenAI is positioning aggressively ahead of a potential IPO.</p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/03/31/openai-not-yet-public-raises-3b-from-retail-investors-in-monster-122b-fund-raise/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">60% relevant</span>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">openai_blog</div>
-          <h3>Helping disaster response teams turn AI into action across Asia</h3>
-          <p>**OpenAI is positioning AI as an operational tool for disaster response in Asia, not just a research demo.** Through a workshop with the Gates Foundation, the focus was on helping response teams translate AI into real-world workflows for faster coordination and decision-making.
+          <h3 class="article-card__title">
+            <a href="https://openai.com/index/helping-disaster-response-teams-asia" target="_blank" rel="noopener noreferrer">Helping disaster response teams turn AI into action across Asia</a>
+          </h3>
+          
+          <p class="article-card__summary">**OpenAI is positioning AI as an operational tool for disaster response in Asia, not just a research demo.** Through a workshop with the Gates Foundation, the focus was on helping response teams translate AI into real-world workflows for faster coordination and decision-making.
 For AI PMs, the signal is clear: value comes from embedding AI into frontline processes, with strong human oversight and domain-specific deployment.</p>
-          <div class="footer">
-            <a class="link" href="https://openai.com/index/helping-disaster-response-teams-asia" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://openai.com/index/helping-disaster-response-teams-asia" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>The cognitive impact of coding agents</h3>
-          <p>**Key insight:** Simon Willison says coding agents may create **"cognitive debt"**—they speed up output, but can reduce a developer’s understanding of how systems actually work. The clip from his Lenny Rachitsky podcast went viral (1.1M+ views), signaling strong interest in the tradeoff between agentic productivity and long-term reasoning.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/cognitive-cost/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">50% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Quoting Greg Kroah-Hartman</h3>
-          <p>**AI-assisted security research just crossed a threshold:** Linux kernel maintainer Greg Kroah-Hartman says the flood of "AI slop" has recently turned into **good, real vulnerability reports**. This suggests LLMs are becoming practically useful for high-signal technical work, not just noisy automation.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/greg-kroah-hartman/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/cognitive-cost/#atom-everything" target="_blank" rel="noopener noreferrer">The cognitive impact of coding agents</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Simon Willison says coding agents may create **"cognitive debt"**—they speed up output, but can reduce a developer’s understanding of how systems actually work. The clip from his Lenny Rachitsky podcast went viral (1.1M+ views), signaling strong interest in the tradeoff between agentic productivity and long-term reasoning.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/cognitive-cost/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">50% relevant</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-extract 0.3a0</h3>
-          <p>**Key insight:** datasette-extract 0.3a0 now routes model selection through datasette-llm, letting teams control exactly which LLMs are available for extraction via the `extract` purpose and shared model config.
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/datasette-extract/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-extract 0.3a0</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** datasette-extract 0.3a0 now routes model selection through datasette-llm, letting teams control exactly which LLMs are available for extraction via the `extract` purpose and shared model config.
 This makes extraction workflows more governable and easier to standardize across tools.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/datasette-extract/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/datasette-extract/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-llm 0.1a5</h3>
-          <p>**Key insight:** datasette-llm 0.1a5 now tracks prompts across entire chains—not just single prompts—so developers can observe tool-call loops in agent workflows.
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/datasette-llm/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-llm 0.1a5</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** datasette-llm 0.1a5 now tracks prompts across entire chains—not just single prompts—so developers can observe tool-call loops in agent workflows.
 This improves visibility into agent execution paths, useful for debugging, evals, and prompt/tool orchestration.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/datasette-llm/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/datasette-llm/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Supply Chain Attack on Axios Pulls Malicious Dependency from npm</h3>
-          <p>**Axios briefly shipped malware via npm**: versions 1.14.1 and 0.30.4 pulled a malicious new dependency (`plain-crypto-js`), likely due to a leaked long-lived npm token. A practical signal: npm releases published without matching GitHub releases may be a strong heuristic for spotting supply-chain attacks.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/31/supply-chain-attack-on-axios/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">50% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-llm 0.1a4</h3>
-          <p>**Key insight:** datasette-llm 0.1a4 adds purpose-based API key routing, so different model tasks can use separate keys/models—for example, forcing enrichments to always run on gpt-5.4-mini with a dedicated key.
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/31/datasette-llm/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-llm 0.1a4</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** datasette-llm 0.1a4 adds purpose-based API key routing, so different model tasks can use separate keys/models—for example, forcing enrichments to always run on gpt-5.4-mini with a dedicated key.
 Simon Willison also shipped llm-echo 0.3 as a utility to test API keys, improving reliability for multi-key LLM workflows.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/31/datasette-llm/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/31/datasette-llm/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>llm 0.30</h3>
-          <p>**llm 0.30 improves plugin extensibility**: plugins can now inspect already-registered models and aliases via `register_models(model_aliases=...)`, enabling smarter cross-plugin model handling.
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/31/llm/#atom-everything" target="_blank" rel="noopener noreferrer">llm 0.30</a>
+          </h3>
+          
+          <p class="article-card__summary">**llm 0.30 improves plugin extensibility**: plugins can now inspect already-registered models and aliases via `register_models(model_aliases=...)`, enabling smarter cross-plugin model handling.
 Also adds docstrings for public APIs directly into docs, which should make integration and developer onboarding smoother.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/31/llm/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/31/llm/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-llm 0.1a3</h3>
-          <p>**Key insight:** datasette-llm 0.1a3 adds model-level access controls by purpose, letting developers decide which LLMs can be used for specific plugin workflows.
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/daniel-stenberg/#atom-everything" target="_blank" rel="noopener noreferrer">Quoting Daniel Stenberg</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/daniel-stenberg/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/datasette-enrichments-llm-2/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-enrichments-llm 0.2a1</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/datasette-enrichments-llm-2/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/datasette-enrichments-llm/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-enrichments-llm 0.2a0</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/datasette-enrichments-llm/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/datasette-llm-usage/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-llm-usage 0.2a0</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/datasette-llm-usage/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/02/google-now-lets-you-direct-avatars-through-prompts-in-its-vids-app/" target="_blank" rel="noopener noreferrer">Google now lets you direct avatars through prompts in its Vids app</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/02/google-now-lets-you-direct-avatars-through-prompts-in-its-vids-app/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              3/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/test-csp-iframe-escape/#atom-everything" target="_blank" rel="noopener noreferrer">Can JavaScript Escape a CSP Meta Tag Inside an Iframe?</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/test-csp-iframe-escape/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              3/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/ai-artificial-intelligence/906525/ai-chatbot-prescribe-refill-psychiatric-drugs" target="_blank" rel="noopener noreferrer">Chatbots are now prescribing psychiatric drugs</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/ai-artificial-intelligence/906525/ai-chatbot-prescribe-refill-psychiatric-drugs" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/tech-policy/2026/04/sad-trumps-ai-data-center-push-is-failing-blame-his-own-tariffs/" target="_blank" rel="noopener noreferrer">Trump ignores biggest reasons his AI data center buildout is failing</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/tech-policy/2026/04/sad-trumps-ai-data-center-push-is-failing-blame-his-own-tariffs/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+      </section>
+      
+    
+      
+      <section class="topic-section" id="topic-conversational_commerce">
+        <div class="topic-section__header">
+          <span>🛒</span>
+          <span class="topic-section__label">Conversational Commerce</span>
+        </div>
+
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge score-badge--mid">
+              7/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/03/31/alexa-plus-new-food-ordering-experiences-with-uber-eats-and-grubhub/" target="_blank" rel="noopener noreferrer">Alexa+ gets new food ordering experiences with Uber Eats and Grubhub</a>
+          </h3>
+          
+          <p class="article-card__summary">**Amazon is pushing Alexa+ deeper into conversational commerce** with food ordering via Uber Eats and Grubhub. The experience is designed to feel like chatting with a waiter or ordering at a drive-thru, signaling more natural, agent-like purchase flows.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/03/31/alexa-plus-new-food-ordering-experiences-with-uber-eats-and-grubhub/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--conversational_commerce">Conversational Commerce</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/tech-policy/2026/04/perplexitys-incognito-mode-is-a-sham-lawsuit-says/" target="_blank" rel="noopener noreferrer">Perplexity's "Incognito Mode" is a "sham," lawsuit says</a>
+          </h3>
+          
+          <p class="article-card__summary">**Perplexity’s “Incognito Mode” is under legal fire:** a lawsuit alleges user prompts—and sometimes entire chat sessions—were shared with Google/Meta, including for non-logged-in users. Big reminder that “private” AI UX claims can become major product and trust liabilities.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/tech-policy/2026/04/perplexitys-incognito-mode-is-a-sham-lawsuit-says/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--conversational_commerce">Conversational Commerce</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/tech/905805/google-home-gemini-temperature-controls-lighting" target="_blank" rel="noopener noreferrer">Google Home’s latest update makes Gemini better at understanding your commands</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Google is making Gemini in Home much better at understanding natural-language smart home commands, including descriptive prompts like “the color of the ocean” and precise appliance/climate controls.
+This is a clear signal that multimodal/agentic assistants are moving from rigid command syntax to intent-first execution with better device grounding.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/tech/905805/google-home-gemini-temperature-controls-lighting" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--conversational_commerce">Conversational Commerce</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/people-would-rather-have-an-amazon-warehouse-in-their-backyard-than-a-data-center/" target="_blank" rel="noopener noreferrer">People would rather have an Amazon warehouse in their backyard than a data center</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/people-would-rather-have-an-amazon-warehouse-in-their-backyard-than-a-data-center/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--conversational_commerce">Conversational Commerce</span>
+            
+          </div>
+        </article>
+        
+      </section>
+      
+    
+      
+      <section class="topic-section" id="topic-ai_pm_productivity">
+        <div class="topic-section__header">
+          <span>⚡</span>
+          <span class="topic-section__label">AI / PM Productivity</span>
+        </div>
+
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ethan_mollick</span>
+            <span class="score-badge score-badge--high">
+              8/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.oneusefulthing.org/p/claude-dispatch-and-the-power-of" target="_blank" rel="noopener noreferrer">Claude Dispatch and the Power of Interfaces</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** AI capability is increasingly bottlenecked by interface, not model quality. Mollick argues chat UIs impose a real cognitive tax, while agentic interfaces like Claude Dispatch unlock more useful work by fitting into familiar workflows like phone messaging + desktop control.
+For product teams, the opportunity is clear: move from generic chat to task-native, low-friction agent experiences that reduce cognitive overload and let users supervise work asynchronously.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.oneusefulthing.org/p/claude-dispatch-and-the-power-of" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/ai-artificial-intelligence/906253/granola-note-links-ai-training-psa" target="_blank" rel="noopener noreferrer">PSA: Anyone with a link can view your Granola notes by default</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Granola notes are effectively shareable-by-link by default, despite being described as “private by default,” and user notes may also be used for internal AI training unless you opt out.
+For anyone using AI meeting tools, this is a reminder to audit default sharing + training settings before exposing sensitive product, customer, or business discussions.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/ai-artificial-intelligence/906253/granola-note-links-ai-training-psa" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/31/supply-chain-attack-on-axios/#atom-everything" target="_blank" rel="noopener noreferrer">Supply Chain Attack on Axios Pulls Malicious Dependency from npm</a>
+          </h3>
+          
+          <p class="article-card__summary">**Axios briefly shipped malware via npm**: versions 1.14.1 and 0.30.4 pulled a malicious new dependency (`plain-crypto-js`), likely due to a leaked long-lived npm token. A practical signal: npm releases published without matching GitHub releases may be a strong heuristic for spotting supply-chain attacks.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/31/supply-chain-attack-on-axios/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              5/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/04/research-finds-ai-users-scarily-willing-to-surrender-their-cognition-to-llms/" target="_blank" rel="noopener noreferrer">"Cognitive surrender" leads AI users to abandon logical thinking, research finds</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** New research frames over-reliance on LLMs as **"cognitive surrender"**—users stop engaging System 2 reasoning and defer to AI’s authoritative tone. Time pressure and incentives make this worse, suggesting AI can silently erode judgment in high-speed workflows.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/04/research-finds-ai-users-scarily-willing-to-surrender-their-cognition-to-llms/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/4/kyle-daigle/#atom-everything" target="_blank" rel="noopener noreferrer">Quoting Kyle Daigle</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/4/kyle-daigle/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/1/datasette-llm-2/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-llm 0.1a6</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/1/datasette-llm-2/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              3/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/31/llm-echo/#atom-everything" target="_blank" rel="noopener noreferrer">llm-echo 0.4</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/31/llm-echo/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/30/datasette-files/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-files 0.1a3</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/30/datasette-files/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/04/openai-takes-on-another-side-quest-buys-tech-focused-talk-show-tbpn/" target="_blank" rel="noopener noreferrer">OpenAI takes on another "side quest," buys tech-focused talk show TBPN</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/04/openai-takes-on-another-side-quest-buys-tech-focused-talk-show-tbpn/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/01/join-the-first-strictlyvc-of-2026-in-sf-with-leaders-from-tdk-ventures-and-replits-co-founder/" target="_blank" rel="noopener noreferrer">Less than a month: StrictlyVC San Francisco brings leaders from TDK Ventures, Replit, and more together</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/01/join-the-first-strictlyvc-of-2026-in-sf-with-leaders-from-tdk-ventures-and-replits-co-founder/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+      </section>
+      
+    
+      
+      <section class="topic-section" id="topic-model_launches">
+        <div class="topic-section__header">
+          <span>🚀</span>
+          <span class="topic-section__label">Model Launches</span>
+        </div>
+
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">deepmind_blog</span>
+            <span class="score-badge score-badge--high">
+              8/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://deepmind.google/blog/gemma-4-byte-for-byte-the-most-capable-open-models/" target="_blank" rel="noopener noreferrer">Gemma 4: Byte for byte, the most capable open models</a>
+          </h3>
+          
+          <p class="article-card__summary">**Gemma 4 is DeepMind’s strongest open model family yet**, optimized for advanced reasoning and agentic workflows. The headline claim is efficiency: “byte for byte” among the most capable open models, making it relevant for practical deployment.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://deepmind.google/blog/gemma-4-byte-for-byte-the-most-capable-open-models/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">openai_blog</span>
+            <span class="score-badge score-badge--mid">
+              7/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://openai.com/index/accelerating-the-next-phase-ai" target="_blank" rel="noopener noreferrer">Accelerating the next phase of AI</a>
+          </h3>
+          
+          <p class="article-card__summary">**OpenAI has raised $122B** to scale frontier AI globally, doubling down on next-gen compute and expanding capacity for ChatGPT, Codex, and enterprise AI. This signals an even faster race on infrastructure, model capability, and enterprise adoption.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://openai.com/index/accelerating-the-next-phase-ai" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">google_ai_blog</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/" target="_blank" rel="noopener noreferrer">New ways to balance cost and reliability in the Gemini API</a>
+          </h3>
+          
+          <p class="article-card__summary">**Google added Flex and Priority tiers to the Gemini API** to let teams trade off cost vs latency/reliability more explicitly. This makes production GenAI deployment more tunable: cheaper async/batch-style usage with Flex, and more predictable low-latency capacity with Priority.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">google_ai_blog</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-march-2026/" target="_blank" rel="noopener noreferrer">The latest AI news we announced in March 2026</a>
+          </h3>
+          
+          <p class="article-card__summary">**Google’s March 2026 AI roundup signals continued rapid platform expansion** across models, developer tools, and product integrations. The post is a monthly rollup rather than a single launch, indicating Google is packaging AI progress as an ongoing release cadence.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-march-2026/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/2/llm-gemini/#atom-everything" target="_blank" rel="noopener noreferrer">llm-gemini 0.30</a>
+          </h3>
+          
+          <p class="article-card__summary">**llm-gemini 0.30 adds support for new Google models**: gemini-3.1-flash-lite-preview, gemma-4-26b-a4b-it, and gemma-4-31b-it. This signals more lightweight and open-weight options for developers testing latency/cost vs quality trade-offs.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/2/llm-gemini/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/04/google-announces-gemma-4-open-ai-models-switches-to-apache-2-0-license/" target="_blank" rel="noopener noreferrer">Google announces Gemma 4 open AI models, switches to Apache 2.0 license</a>
+          </h3>
+          
+          <p class="article-card__summary">**Google launched Gemma 4 and moved it to Apache 2.0**, removing the custom license friction that held back broader developer adoption. The new lineup is optimized for local inference, with a 26B MoE model tuned for speed and a 31B dense model aimed at higher-quality fine-tuning.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/04/google-announces-gemma-4-open-ai-models-switches-to-apache-2-0-license/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/02/microsoft-takes-on-ai-rivals-with-three-new-foundational-models/" target="_blank" rel="noopener noreferrer">Microsoft takes on AI rivals with three new foundational models</a>
+          </h3>
+          
+          <p class="article-card__summary">**Microsoft is broadening its AI stack with three new MAI foundation models** focused on speech-to-text, audio generation, and image generation. The move signals a push to reduce dependence on external model providers and compete more directly across multimodal AI.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/02/microsoft-takes-on-ai-rivals-with-three-new-foundational-models/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/03/31/openai-not-yet-public-raises-3b-from-retail-investors-in-monster-122b-fund-raise/" target="_blank" rel="noopener noreferrer">OpenAI, not yet public, raises $3B from retail investors in monster $122B fund raise</a>
+          </h3>
+          
+          <p class="article-card__summary">**OpenAI has raised $122B at an $852B valuation**, with Amazon, Nvidia, and SoftBank leading — one of the biggest private AI financings ever. The move signals massive confidence in frontier model economics and suggests OpenAI is positioning aggressively ahead of a potential IPO.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/03/31/openai-not-yet-public-raises-3b-from-retail-investors-in-monster-122b-fund-raise/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/30/datasette-llm/#atom-everything" target="_blank" rel="noopener noreferrer">datasette-llm 0.1a3</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** datasette-llm 0.1a3 adds model-level access controls by purpose, letting developers decide which LLMs can be used for specific plugin workflows.
 This is a small but important step toward safer, more governable agentic systems where model choice can be constrained per task.</p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/30/datasette-llm/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/30/datasette-llm/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>"Cognitive surrender" leads AI users to abandon logical thinking, research finds</h3>
-          <p>**Key insight:** New research frames over-reliance on LLMs as **"cognitive surrender"**—users stop engaging System 2 reasoning and defer to AI’s authoritative tone. Time pressure and incentives make this worse, suggesting AI can silently erode judgment in high-speed workflows.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/04/research-finds-ai-users-scarily-willing-to-surrender-their-cognition-to-llms/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">50% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Anthropic says its leak-focused DMCA effort unintentionally hit legit GitHub forks</h3>
-          <p>**Key insight:** Anthropic’s anti-leak DMCA sweep backfired, temporarily taking down ~8,100 GitHub forks—including many legitimate forks of its public Claude Code repo. The removals were reversed, but the incident shows how hard it is to contain leaked code without disrupting open-source developer ecosystems.</p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/04/anthropic-says-its-leak-focused-dmca-effort-unintentionally-hit-legit-github-forks/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/04/anthropic-says-its-leak-focused-dmca-effort-unintentionally-hit-legit-github-forks/" target="_blank" rel="noopener noreferrer">Anthropic says its leak-focused DMCA effort unintentionally hit legit GitHub forks</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** Anthropic’s anti-leak DMCA sweep backfired, temporarily taking down ~8,100 GitHub forks—including many legitimate forks of its public Claude Code repo. The removals were reversed, but the incident shows how hard it is to contain leaked code without disrupting open-source developer ecosystems.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/04/anthropic-says-its-leak-focused-dmca-effort-unintentionally-hit-legit-github-forks/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">50% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>OpenAI’s AGI boss is taking a leave of absence</h3>
-          <p>**OpenAI has reshuffled leadership again:** AGI deployment chief Fidji Simo is taking medical leave, and Greg Brockman will now oversee product, including OpenAI’s “super app” efforts. Another senior change: CMO Kate Rouch is also stepping down for health reasons, signaling continued exec churn during a major product push.</p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/ai-artificial-intelligence/906965/openais-agi-boss-is-taking-a-leave-of-absence" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">50% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Anthropic is having a moment in the private markets; SpaceX could spoil the party</h3>
-          <p>**Anthropic is now the hottest name in private secondary markets**, with investor demand outpacing OpenAI, according to Rainmaker Securities. A potential SpaceX IPO could redirect major private-market capital and reset valuations across top AI startups.</p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/anthropic-is-having-a-moment-in-the-private-markets-spacex-could-spoil-the-party/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/ai-artificial-intelligence/906965/openais-agi-boss-is-taking-a-leave-of-absence" target="_blank" rel="noopener noreferrer">OpenAI’s AGI boss is taking a leave of absence</a>
+          </h3>
+          
+          <p class="article-card__summary">**OpenAI has reshuffled leadership again:** AGI deployment chief Fidji Simo is taking medical leave, and Greg Brockman will now oversee product, including OpenAI’s “super app” efforts. Another senior change: CMO Kate Rouch is also stepping down for health reasons, signaling continued exec churn during a major product push.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/ai-artificial-intelligence/906965/openais-agi-boss-is-taking-a-leave-of-absence" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">50% relevant</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">google_ai_blog</div>
-          <h3>Build with Veo 3.1 Lite, our most cost-effective video generation model</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Quoting Kyle Daigle</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/4/kyle-daigle/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/anthropic-is-having-a-moment-in-the-private-markets-spacex-could-spoil-the-party/" target="_blank" rel="noopener noreferrer">Anthropic is having a moment in the private markets; SpaceX could spoil the party</a>
+          </h3>
+          
+          <p class="article-card__summary">**Anthropic is now the hottest name in private secondary markets**, with investor demand outpacing OpenAI, according to Rainmaker Securities. A potential SpaceX IPO could redirect major private-market capital and reset valuations across top AI startups.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/anthropic-is-having-a-moment-in-the-private-markets-spacex-could-spoil-the-party/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Quoting Willy Tarreau</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/willy-tarreau/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">google_ai_blog</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Quoting Daniel Stenberg</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/daniel-stenberg/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/" target="_blank" rel="noopener noreferrer">Build with Veo 3.1 Lite, our most cost-effective video generation model</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-llm 0.1a6</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/datasette-llm-2/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-enrichments-llm 0.2a1</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/datasette-enrichments-llm-2/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/04/google-vids-gets-ai-upgrade-with-veo-and-lyria-models-directable-ai-avatars/" target="_blank" rel="noopener noreferrer">Google Vids gets AI upgrade with Veo and Lyria models, directable AI avatars</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/04/google-vids-gets-ai-upgrade-with-veo-and-lyria-models-directable-ai-avatars/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-enrichments-llm 0.2a0</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/datasette-enrichments-llm/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-llm-usage 0.2a0</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/1/datasette-llm-usage/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/ai/2026/03/how-did-anthropic-measure-ais-theoretical-capabilities-in-the-job-market/" target="_blank" rel="noopener noreferrer">How did Anthropic measure AI's "theoretical capabilities" in the job market?</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/ai/2026/03/how-did-anthropic-measure-ais-theoretical-capabilities-in-the-job-market/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
             
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>llm-mrchatterbox 0.1</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/30/llm-mrchatterbox-2/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ben_thompson</div>
-          <h3>An Interview with Asymco’s Horace Dediu About Apple at 50</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://stratechery.com/2026/an-interview-with-asymcos-horace-dediu-about-apple-at-50/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/ai-artificial-intelligence/907074/anthropic-openclaw-claude-subscription-ban" target="_blank" rel="noopener noreferrer">Anthropic essentially bans OpenClaw from Claude by making subscribers pay extra</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/ai-artificial-intelligence/907074/anthropic-openclaw-claude-subscription-ban" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
             
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Google Vids gets AI upgrade with Veo and Lyria models, directable AI avatars</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/04/google-vids-gets-ai-upgrade-with-veo-and-lyria-models-directable-ai-avatars/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Running local models on Macs gets faster with Ollama's MLX support</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/apple/2026/03/running-local-models-on-macs-gets-faster-with-ollamas-mlx-support/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/report/905791/mustafa-suleyman-microsoft-ai-transcription-model" target="_blank" rel="noopener noreferrer">Microsoft’s new ‘superintelligence’ game plan is all about business</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/report/905791/mustafa-suleyman-microsoft-ai-transcription-model" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">40% relevant</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>How did Anthropic measure AI's "theoretical capabilities" in the job market?</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/03/how-did-anthropic-measure-ais-theoretical-capabilities-in-the-job-market/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>Anthropic essentially bans OpenClaw from Claude by making subscribers pay extra</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/ai-artificial-intelligence/907074/anthropic-openclaw-claude-subscription-ban" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/ai-companies-are-building-huge-natural-gas-plants-to-power-data-centers-what-could-go-wrong/" target="_blank" rel="noopener noreferrer">AI companies are building huge natural gas plants to power data centers. What could go wrong?</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/ai-companies-are-building-huge-natural-gas-plants-to-power-data-centers-what-could-go-wrong/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>Microsoft’s new ‘superintelligence’ game plan is all about business</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/report/905791/mustafa-suleyman-microsoft-ai-transcription-model" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">google_ai_blog</span>
+            <span class="score-badge">
+              3/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>AI companies are building huge natural gas plants to power data centers. What could go wrong?</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/ai-companies-are-building-huge-natural-gas-plants-to-power-data-centers-what-could-go-wrong/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/" target="_blank" rel="noopener noreferrer">Create, edit and share videos at no cost in Google Vids</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Google now lets you direct avatars through prompts in its Vids app</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/02/google-now-lets-you-direct-avatars-through-prompts-in-its-vids-app/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">40% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              3/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Cognichip wants AI to design the chips that power AI, and just raised $60M to try</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/01/cognichip-wants-ai-to-design-the-chips-that-power-ai-and-just-raised-60m-to-try/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/ai-artificial-intelligence/906022/openai-buys-tbpn" target="_blank" rel="noopener noreferrer">OpenAI just bought TBPN</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/ai-artificial-intelligence/906022/openai-buys-tbpn" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">40% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">google_ai_blog</div>
-          <h3>Create, edit and share videos at no cost in Google Vids</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">30% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ben_thompson</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Can JavaScript Escape a CSP Meta Tag Inside an Iframe?</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/test-csp-iframe-escape/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://stratechery.com/2026/apple-acceleration-and-ai/" target="_blank" rel="noopener noreferrer">2026.14: Apple, Acceleration, and AI</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://stratechery.com/2026/apple-acceleration-and-ai/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">30% relevant</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>llm-echo 0.4</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/31/llm-echo/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">30% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ben_thompson</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>Chatbots are now prescribing psychiatric drugs</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/ai-artificial-intelligence/906525/ai-chatbot-prescribe-refill-psychiatric-drugs" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://stratechery.com/2026/apples-50-years-of-integration/" target="_blank" rel="noopener noreferrer">Apple’s 50 Years of Integration</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://stratechery.com/2026/apples-50-years-of-integration/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">30% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>OpenAI just bought TBPN</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/ai-artificial-intelligence/906022/openai-buys-tbpn" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">30% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">google_ai_blog</div>
-          <h3>We’re creating a new satellite imagery map to help protect Brazil’s forests.</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://blog.google/products-and-platforms/products/earth/satellite-imagery-brazilian-deforestation/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/tech-policy/2026/04/grok-degrades-women-with-vulgar-roasts-swiss-govt-officials-lawsuit-says/" target="_blank" rel="noopener noreferrer">Musk loves Grok’s “roasts.” Swiss official sues in attempt to neuter them.</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/tech-policy/2026/04/grok-degrades-women-with-vulgar-roasts-swiss-govt-officials-lawsuit-says/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI Breakthroughs</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>The Axios supply chain attack used individually targeted social engineering</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Apr/3/supply-chain-social-engineering/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>datasette-files 0.1a3</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/30/datasette-files/#atom-everything" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/tech-policy/2026/03/meta-hopes-scotus-piracy-ruling-will-help-it-beat-lawsuit-over-torrenting-ai-data/" target="_blank" rel="noopener noreferrer">Authors' lucky break in court may help class action over Meta torrenting</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/tech-policy/2026/03/meta-hopes-scotus-piracy-ruling-will-help-it-beat-lawsuit-over-torrenting-ai-data/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">simon_willison</div>
-          <h3>Mr. Chatterbox is a (weak) Victorian-era ethically trained model you can run on your own computer</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://simonwillison.net/2026/Mar/30/mr-chatterbox/#atom-everything" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ben_thompson</div>
-          <h3>2026.14: Apple, Acceleration, and AI</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://stratechery.com/2026/apple-acceleration-and-ai/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/openai-executive-shuffle-new-roles-coo-brad-lightcap-fidji-simo-kate-rouch/" target="_blank" rel="noopener noreferrer">OpenAI executive shuffle includes new role for COO Brad Lightcap to lead ‘special projects’</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/openai-executive-shuffle-new-roles-coo-brad-lightcap-fidji-simo-kate-rouch/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-              <span class="tag">AI Breakthroughs</span>
-            
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ben_thompson</div>
-          <h3>Apple’s 50 Years of Integration</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://stratechery.com/2026/apples-50-years-of-integration/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Trump ignores biggest reasons his AI data center buildout is failing</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/tech-policy/2026/04/sad-trumps-ai-data-center-push-is-failing-blame-his-own-tariffs/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/anthropic-buys-biotech-startup-coefficient-bio-in-400m-deal-reports/" target="_blank" rel="noopener noreferrer">Anthropic buys biotech startup Coefficient Bio in $400M deal: Reports</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/anthropic-buys-biotech-startup-coefficient-bio-in-400m-deal-reports/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>OpenAI takes on another "side quest," buys tech-focused talk show TBPN</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/ai/2026/04/openai-takes-on-another-side-quest-buys-tech-focused-talk-show-tbpn/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Musk loves Grok’s “roasts.” Swiss official sues in attempt to neuter them.</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/tech-policy/2026/04/grok-degrades-women-with-vulgar-roasts-swiss-govt-officials-lawsuit-says/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/01/metas-natural-gas-binge-could-power-south-dakota/" target="_blank" rel="noopener noreferrer">Meta’s natural gas binge could power South Dakota</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/01/metas-natural-gas-binge-could-power-south-dakota/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">ars_ai</div>
-          <h3>Authors' lucky break in court may help class action over Meta torrenting</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://arstechnica.com/tech-policy/2026/03/meta-hopes-scotus-piracy-ruling-will-help-it-beat-lawsuit-over-torrenting-ai-data/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>It’s not easy to get depression-detecting AI through the FDA</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/ai-artificial-intelligence/905864/depression-detecting-ai-kintsugi-clinical-ai-startup-shut-down" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/03/31/yupp-ai-shuts-down-33m-a16z-crypto-chris-dixon/" target="_blank" rel="noopener noreferrer">Yupp shuts down after raising $33M from a16z crypto’s Chris Dixon</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/03/31/yupp-ai-shuts-down-33m-a16z-crypto-chris-dixon/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-            <span class="score">20% relevant</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>OpenAI executive shuffle includes new role for COO Brad Lightcap to lead ‘special projects’</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/openai-executive-shuffle-new-roles-coo-brad-lightcap-fidji-simo-kate-rouch/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">openai_blog</span>
+            <span class="score-badge">
+              1/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Anthropic buys biotech startup Coefficient Bio in $400M deal: Reports</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/anthropic-buys-biotech-startup-coefficient-bio-in-400m-deal-reports/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://openai.com/index/openai-acquires-tbpn" target="_blank" rel="noopener noreferrer">OpenAI acquires TBPN</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://openai.com/index/openai-acquires-tbpn" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>People would rather have an Amazon warehouse in their backyard than a data center</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/people-would-rather-have-an-amazon-warehouse-in-their-backyard-than-a-data-center/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Conversational Commerce</span>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              1/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Anthropic took down thousands of GitHub repos trying to yank its leaked source code — a move the company says was an accident</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/01/anthropic-took-down-thousands-of-github-repos-trying-to-yank-its-leaked-source-code-a-move-the-company-says-was-an-accident/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/02/openai-acquires-tbpn-the-buzzy-founder-led-business-talk-show/" target="_blank" rel="noopener noreferrer">OpenAI acquires TBPN, the buzzy founder-led business talk show</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/02/openai-acquires-tbpn-the-buzzy-founder-led-business-talk-show/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-            <span class="score">20% relevant</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Meta’s natural gas binge could power South Dakota</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/01/metas-natural-gas-binge-could-power-south-dakota/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">20% relevant</span>
+      </section>
+      
+    
+      
+      <section class="topic-section" id="topic-ai_breakthroughs">
+        <div class="topic-section__header">
+          <span>🔬</span>
+          <span class="topic-section__label">AI Breakthroughs</span>
+        </div>
+
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge score-badge--mid">
+              7/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Less than a month: StrictlyVC San Francisco brings leaders from TDK Ventures, Replit, and more together</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/01/join-the-first-strictlyvc-of-2026-in-sf-with-leaders-from-tdk-ventures-and-replits-co-founder/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/2/gemma-4/#atom-everything" target="_blank" rel="noopener noreferrer">Gemma 4: Byte for byte, the most capable open models</a>
+          </h3>
+          
+          <p class="article-card__summary">**Google DeepMind’s Gemma 4 pushes small open models forward**: new Apache 2.0 multimodal models (2B, 4B, 31B, and 26B-A4B MoE) emphasize unusually high intelligence-per-parameter, with the smaller variants optimized for on-device use. Notably, all handle images/video, and the 2B/4B models also support native audio input—strong signals for compact multimodal assistants.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/2/gemma-4/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">AI / PM Productivity</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
             
-              <span class="tag">Agentic AI</span>
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
             
-            <span class="score">20% relevant</span>
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Mercor says it was hit by cyberattack tied to compromise of open source LiteLLM project</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/03/31/mercor-says-it-was-hit-by-cyberattack-tied-to-compromise-of-open-source-litellm-project/" target="_blank" rel="noopener">Read →</a>
-            
-            <span class="score">20% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ben_thompson</span>
+            <span class="score-badge score-badge--mid">
+              6/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Yupp shuts down after raising $33M from a16z crypto’s Chris Dixon</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/03/31/yupp-ai-shuts-down-33m-a16z-crypto-chris-dixon/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://stratechery.com/2026/axios-supply-chain-attack-claude-code-code-leaked-ai-and-security/" target="_blank" rel="noopener noreferrer">Axios Supply Chain Attack, Claude Code Code Leaked, AI and Security</a>
+          </h3>
+          
+          <p class="article-card__summary">**Key insight:** AI will likely worsen cybersecurity in the near term by making attacks easier and faster, but over time it should outperform humans at defense. For product teams, this means planning for a messy transition period where AI boosts both attackers and defenders.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://stratechery.com/2026/axios-supply-chain-attack-claude-code-code-leaked-ai-and-security/" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-              <span class="tag">Model Launches</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
             
-            <span class="score">20% relevant</span>
+              <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">openai_blog</div>
-          <h3>OpenAI acquires TBPN</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://openai.com/index/openai-acquires-tbpn" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">10% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              5/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>Apple’s best product ever</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/podcast/906548/best-apple-product-vergecast" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/greg-kroah-hartman/#atom-everything" target="_blank" rel="noopener noreferrer">Quoting Greg Kroah-Hartman</a>
+          </h3>
+          
+          <p class="article-card__summary">**AI-assisted security research just crossed a threshold:** Linux kernel maintainer Greg Kroah-Hartman says the flood of "AI slop" has recently turned into **good, real vulnerability reports**. This suggests LLMs are becoming practically useful for high-signal technical work, not just noisy automation.</p>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/greg-kroah-hartman/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-            <span class="score">10% relevant</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">the_verge_ai</div>
-          <h3>Elon Musk is about to be a very busy boy!</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://www.theverge.com/tech/906027/elon-musk-lawsuit-ipo-spacex-tesla" target="_blank" rel="noopener">Read →</a>
-            
-            <span class="score">10% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Anthropic ramps up its political activities with a new PAC</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/03/anthropic-ramps-up-its-political-activities-with-a-new-pac/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/willy-tarreau/#atom-everything" target="_blank" rel="noopener noreferrer">Quoting Willy Tarreau</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/willy-tarreau/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-            <span class="score">10% relevant</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
           </div>
-        </div>
+        </article>
         
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>OpenAI acquires TBPN, the buzzy founder-led business talk show</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/04/02/openai-acquires-tbpn-the-buzzy-founder-led-business-talk-show/" target="_blank" rel="noopener">Read →</a>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">10% relevant</span>
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              4/10
+            </span>
           </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">techcrunch_ai</div>
-          <h3>Anthropic is having a month</h3>
-          <p></p>
-          <div class="footer">
-            <a class="link" href="https://techcrunch.com/2026/03/31/anthropic-is-having-a-month/" target="_blank" rel="noopener">Read →</a>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/30/llm-mrchatterbox-2/#atom-everything" target="_blank" rel="noopener noreferrer">llm-mrchatterbox 0.1</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/30/llm-mrchatterbox-2/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
             
-            <span class="score">10% relevant</span>
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
           </div>
-        </div>
+        </article>
         
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ben_thompson</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://stratechery.com/2026/an-interview-with-asymcos-horace-dediu-about-apple-at-50/" target="_blank" rel="noopener noreferrer">An Interview with Asymco’s Horace Dediu About Apple at 50</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://stratechery.com/2026/an-interview-with-asymcos-horace-dediu-about-apple-at-50/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">ars_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://arstechnica.com/apple/2026/03/running-local-models-on-macs-gets-faster-with-ollamas-mlx-support/" target="_blank" rel="noopener noreferrer">Running local models on Macs gets faster with Ollama's MLX support</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://arstechnica.com/apple/2026/03/running-local-models-on-macs-gets-faster-with-ollamas-mlx-support/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              4/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/01/cognichip-wants-ai-to-design-the-chips-that-power-ai-and-just-raised-60m-to-try/" target="_blank" rel="noopener noreferrer">Cognichip wants AI to design the chips that power AI, and just raised $60M to try</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/01/cognichip-wants-ai-to-design-the-chips-that-power-ai-and-just-raised-60m-to-try/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">google_ai_blog</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://blog.google/products-and-platforms/products/earth/satellite-imagery-brazilian-deforestation/" target="_blank" rel="noopener noreferrer">We’re creating a new satellite imagery map to help protect Brazil’s forests.</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://blog.google/products-and-platforms/products/earth/satellite-imagery-brazilian-deforestation/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Mar/30/mr-chatterbox/#atom-everything" target="_blank" rel="noopener noreferrer">Mr. Chatterbox is a (weak) Victorian-era ethically trained model you can run on your own computer</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Mar/30/mr-chatterbox/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+              <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+            
+              <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+            
+          </div>
+        </article>
+        
+      </section>
+      
+    
+      
+      <section class="topic-section" id="topic-other">
+        <div class="topic-section__header">
+          <span></span>
+          <span class="topic-section__label"></span>
+        </div>
+
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">simon_willison</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://simonwillison.net/2026/Apr/3/supply-chain-social-engineering/#atom-everything" target="_blank" rel="noopener noreferrer">The Axios supply chain attack used individually targeted social engineering</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://simonwillison.net/2026/Apr/3/supply-chain-social-engineering/#atom-everything" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/ai-artificial-intelligence/905864/depression-detecting-ai-kintsugi-clinical-ai-startup-shut-down" target="_blank" rel="noopener noreferrer">It’s not easy to get depression-detecting AI through the FDA</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/ai-artificial-intelligence/905864/depression-detecting-ai-kintsugi-clinical-ai-startup-shut-down" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/01/anthropic-took-down-thousands-of-github-repos-trying-to-yank-its-leaked-source-code-a-move-the-company-says-was-an-accident/" target="_blank" rel="noopener noreferrer">Anthropic took down thousands of GitHub repos trying to yank its leaked source code — a move the company says was an accident</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/01/anthropic-took-down-thousands-of-github-repos-trying-to-yank-its-leaked-source-code-a-move-the-company-says-was-an-accident/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              2/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/03/31/mercor-says-it-was-hit-by-cyberattack-tied-to-compromise-of-open-source-litellm-project/" target="_blank" rel="noopener noreferrer">Mercor says it was hit by cyberattack tied to compromise of open source LiteLLM project</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/03/31/mercor-says-it-was-hit-by-cyberattack-tied-to-compromise-of-open-source-litellm-project/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              1/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/podcast/906548/best-apple-product-vergecast" target="_blank" rel="noopener noreferrer">Apple’s best product ever</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/podcast/906548/best-apple-product-vergecast" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">the_verge_ai</span>
+            <span class="score-badge">
+              1/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://www.theverge.com/tech/906027/elon-musk-lawsuit-ipo-spacex-tesla" target="_blank" rel="noopener noreferrer">Elon Musk is about to be a very busy boy!</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://www.theverge.com/tech/906027/elon-musk-lawsuit-ipo-spacex-tesla" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              1/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/04/03/anthropic-ramps-up-its-political-activities-with-a-new-pac/" target="_blank" rel="noopener noreferrer">Anthropic ramps up its political activities with a new PAC</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/04/03/anthropic-ramps-up-its-political-activities-with-a-new-pac/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+        <article class="article-card">
+          <div class="article-card__top">
+            <span class="source-badge">techcrunch_ai</span>
+            <span class="score-badge">
+              1/10
+            </span>
+          </div>
+          <h3 class="article-card__title">
+            <a href="https://techcrunch.com/2026/03/31/anthropic-is-having-a-month/" target="_blank" rel="noopener noreferrer">Anthropic is having a month</a>
+          </h3>
+          
+          
+          <div class="article-card__footer">
+            <a class="read-link" href="https://techcrunch.com/2026/03/31/anthropic-is-having-a-month/" target="_blank" rel="noopener noreferrer">Read article →</a>
+            
+          </div>
+        </article>
+        
+      </section>
+      
+    
+
+    <!-- Videos -->
+    
+    <section class="topic-section" id="videos">
+      <div class="topic-section__header">
+        <span>🎬</span>
+        <span class="topic-section__label">Creator Digest</span>
+      </div>
+      
+      <article class="video-card">
+        <div class="video-play-icon">▶</div>
+        <div class="video-card__body">
+          <div class="video-card__channel">fireship</div>
+          <div class="video-card__title">
+            <a href="https://www.youtube.com/watch?v=vd14EElCRvs" target="_blank" rel="noopener noreferrer">He just crawled through hell to fix the browser…</a>
+          </div>
+          
+          <p class="video-card__summary">The video focuses on Pretext, a new pure TypeScript text measurement library by Changlu, former React core team member and Midjourney engineer, designed to compute text width, line breaks, line count, and height without touching the DOM or triggering browser reflow. Fireship explains how it uses the Canvas API for width measurement plus a custom browser- and language-aware line-break algorithm, and shows why this is important for high-performance UIs like virtualized chat lists, masonry layouts, and custom text/video rendering effects.</p>
+          
+        </div>
+      </article>
+      
+      <article class="video-card">
+        <div class="video-play-icon">▶</div>
+        <div class="video-card__body">
+          <div class="video-card__channel">fireship</div>
+          <div class="video-card__title">
+            <a href="https://www.youtube.com/watch?v=mBHRPeg8zPU" target="_blank" rel="noopener noreferrer">Tragic mistake... Anthropic leaks Claude’s source code</a>
+          </div>
+          
+          <p class="video-card__summary">The video covered Anthropic allegedly leaking Claude Code’s source via an npm package source map, and then walked through what the leaked code supposedly revealed about Claude’s architecture, prompts, tools, and internal roadmap. Key points included Claude Code’s prompt-heavy implementation, anti-distillation tricks, hidden/flagged features like Buddy and various modes, and the broader claim that modern AI coding assistants are mostly orchestration, guardrails, and tooling rather than magic.</p>
+          
+        </div>
+      </article>
+      
+      <article class="video-card">
+        <div class="video-play-icon">▶</div>
+        <div class="video-card__body">
+          <div class="video-card__channel">fireship</div>
+          <div class="video-card__title">
+            <a href="https://www.youtube.com/watch?v=o7NYXvYohYk" target="_blank" rel="noopener noreferrer">Millions of JS devs just got penetrated by a RAT…</a>
+          </div>
+          
+          <p class="video-card__summary">The video covers a severe npm supply-chain attack involving malicious Axios releases that pulled in a rogue dependency, plain-crypto-js, whose postinstall script downloaded a remote access Trojan onto developer machines and CI/CD systems. Fireship explains how the attack worked, how to check for compromise, what indicators to look for, and why relying on third-party DX libraries over native platform features like fetch can increase security risk.</p>
+          
+        </div>
+      </article>
+      
+      <article class="video-card">
+        <div class="video-play-icon">▶</div>
+        <div class="video-card__body">
+          <div class="video-card__channel">two_minute_papers</div>
+          <div class="video-card__title">
+            <a href="https://www.youtube.com/watch?v=7YVrb3-ABYE" target="_blank" rel="noopener noreferrer">Google’s New AI Just Broke My Brain</a>
+          </div>
+          
+          <p class="video-card__summary">The video breaks down Google’s TurboQuant, an efficiency technique for compressing the KV cache in large language models by combining quantization, random rotation, and the Johnson–Lindenstrauss (JL) transform. The creator focuses on whether the method actually reproduces in practice, concluding that early independent tests show more realistic gains of roughly 30–40% KV-cache memory reduction and about 40% faster prompt processing, rather than the most hyped 4–6x memory savings claims.</p>
+          
+        </div>
+      </article>
       
     </section>
+    
 
-    <!-- ── Videos ── -->
-    <section>
-      <h2>Videos</h2>
+    
 
-      
-        
-        <div class="card">
-          <div class="source">fireship</div>
-          <h3>Tragic mistake... Anthropic leaks Claude’s source code</h3>
-          <p>The video covered Anthropic allegedly leaking Claude Code’s source via an npm package source map, and then walked through what the leaked code supposedly revealed about Claude’s architecture, prompts, tools, and internal roadmap. Key points included Claude Code’s prompt-heavy implementation, anti-distillation tricks, hidden/flagged features like Buddy and various modes, and the broader claim that modern AI coding assistants are mostly orchestration, guardrails, and tooling rather than magic.</p>
-          <div class="footer">
-            <a class="link" href="https://www.youtube.com/watch?v=mBHRPeg8zPU" target="_blank" rel="noopener">Watch →</a>
-            
-              <span class="tag">Agentic AI</span>
-            
-              <span class="tag">Model Launches</span>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-            <span class="score">80% relevant</span>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">two_minute_papers</div>
-          <h3>Google’s New AI Just Broke My Brain</h3>
-          <p>The video breaks down Google’s TurboQuant, an efficiency technique for compressing the KV cache in large language models by combining quantization, random rotation, and the Johnson–Lindenstrauss (JL) transform. The creator focuses on whether the method actually reproduces in practice, concluding that early independent tests show more realistic gains of roughly 30–40% KV-cache memory reduction and about 40% faster prompt processing, rather than the most hyped 4–6x memory savings claims.</p>
-          <div class="footer">
-            <a class="link" href="https://www.youtube.com/watch?v=7YVrb3-ABYE" target="_blank" rel="noopener">Watch →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-              <span class="tag">Model Launches</span>
-            
-            <span class="score">80% relevant</span>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">fireship</div>
-          <h3>He just crawled through hell to fix the browser…</h3>
-          <p>The video focuses on Pretext, a new pure TypeScript text measurement library by Changlu, former React core team member and Midjourney engineer, designed to compute text width, line breaks, line count, and height without touching the DOM or triggering browser reflow. Fireship explains how it uses the Canvas API for width measurement plus a custom browser- and language-aware line-break algorithm, and shows why this is important for high-performance UIs like virtualized chat lists, masonry layouts, and custom text/video rendering effects.</p>
-          <div class="footer">
-            <a class="link" href="https://www.youtube.com/watch?v=vd14EElCRvs" target="_blank" rel="noopener">Watch →</a>
-            
-              <span class="tag">AI Breakthroughs</span>
-            
-              <span class="tag">Agentic AI</span>
-            
-            <span class="score">40% relevant</span>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="source">fireship</div>
-          <h3>Millions of JS devs just got penetrated by a RAT…</h3>
-          <p>The video covers a severe npm supply-chain attack involving malicious Axios releases that pulled in a rogue dependency, plain-crypto-js, whose postinstall script downloaded a remote access Trojan onto developer machines and CI/CD systems. Fireship explains how the attack worked, how to check for compromise, what indicators to look for, and why relying on third-party DX libraries over native platform features like fetch can increase security risk.</p>
-          <div class="footer">
-            <a class="link" href="https://www.youtube.com/watch?v=o7NYXvYohYk" target="_blank" rel="noopener">Watch →</a>
-            
-              <span class="tag">AI / PM Productivity</span>
-            
-            <span class="score">20% relevant</span>
-          </div>
-        </div>
-        
-      
-    </section>
-
-    <footer>
-      Generated by Nova · morning-brief
+    <footer class="page-footer">
+      <span>Generated by Briefing · morning-brief</span>
+      <a href="../index.html">← All digests</a>
     </footer>
 
-  </div>
+  </main>
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+      var sunIcon = document.getElementById('sun-icon');
+      var moonIcon = document.getElementById('moon-icon');
+      var label = document.getElementById('theme-label');
+
+      function applyTheme(t) {
+        html.setAttribute('data-theme', t);
+        if (t === 'dark') {
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = '';
+          label.textContent = 'Light';
+        } else {
+          sunIcon.style.display = '';
+          moonIcon.style.display = 'none';
+          label.textContent = 'Dark';
+        }
+      }
+
+      window.toggleTheme = function () {
+        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('mb-theme', next);
+        applyTheme(next);
+      };
+
+      var saved = localStorage.getItem('mb-theme');
+      if (saved) {
+        applyTheme(saved);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        applyTheme('dark');
+      }
+    })();
+  </script>
+
 </body>
 </html>

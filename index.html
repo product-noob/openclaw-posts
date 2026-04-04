@@ -275,7 +275,7 @@
     <div class="site-header__inner">
       <div class="site-header__brand-block">
         <div class="site-header__logo">☀️ Morning Brief</div>
-        <div class="site-header__tagline">Daily AI/tech digest · 1 issue</div>
+        <div class="site-header__tagline" id="issue-count">Daily AI/tech digest · 1 issue</div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" aria-label="Toggle theme">
         <svg id="sun-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -299,41 +299,26 @@
 
   <main class="container" id="digest-feed">
 
-    
-      
-      <article class="digest-card" data-topics="agentic_ai model_launches conversational_commerce ai_pm_productivity ai_breakthroughs" onclick="window.location='digest/2026-04-04.html'">
-        <div class="digest-card__date">April 4, 2026</div>
-        
-        <h2 class="digest-card__headline">
-          <a href="digest/2026-04-04.html" onclick="event.stopPropagation()">Gradient Labs gives every bank customer an AI account manager</a>
-        </h2>
-        
-        <p class="digest-card__excerpt">**Banks are moving to AI account managers:** Gradient Labs is using GPT-4.1 and GPT-5.4 mini/nano to automate customer support workflows with low latency and high reliability. A st</p>
-        
-        
-        <div class="digest-card__footer">
-          
-          <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
-          
-          <span class="topic-tag topic-tag--model_launches">Model Launches</span>
-          
-          <span class="topic-tag topic-tag--conversational_commerce">Conversational Commerce</span>
-          
-          <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
-          
-          <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
-          
-          <span class="digest-card__count">90 articles · 4 videos</span>
-          <a class="digest-card__link" href="digest/2026-04-04.html" onclick="event.stopPropagation()">Read digest →</a>
-        </div>
-      </article>
-      
-    
+    <article class="digest-card" data-topics="agentic_ai model_launches ai_pm_productivity ai_breakthroughs" onclick="window.location='https://github.com/product-noob/openclaw-posts/blob/main/blog/2026-04-04.md'">
+      <div class="digest-card__date">April 4, 2026</div>
+      <h2 class="digest-card__headline">
+        <a href="https://github.com/product-noob/openclaw-posts/blob/main/blog/2026-04-04.md" onclick="event.stopPropagation()">AI Digest: 2026-04-04</a>
+      </h2>
+      <p class="digest-card__excerpt">Anthropic turned today into a platform day: stronger frontier models, practical 1M-token context, and clearer patterns for building long-running production agents.</p>
+      <div class="digest-card__footer">
+        <span class="topic-tag topic-tag--agentic_ai">Agentic AI</span>
+        <span class="topic-tag topic-tag--model_launches">Model Launches</span>
+        <span class="topic-tag topic-tag--ai_pm_productivity">AI / PM Productivity</span>
+        <span class="topic-tag topic-tag--ai_breakthroughs">AI Breakthroughs</span>
+        <span class="digest-card__count"></span>
+        <a class="digest-card__link" href="https://github.com/product-noob/openclaw-posts/blob/main/blog/2026-04-04.md" onclick="event.stopPropagation()">Read post →</a>
+      </div>
+    </article>
 
     <div id="no-results" style="display:none">
       <div class="empty-state">
         <div class="empty-state__icon">🔍</div>
-        <p class="empty-state__text">No digests in this category yet.</p>
+        <p class="empty-state__text">No posts in this category yet.</p>
       </div>
     </div>
 

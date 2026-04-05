@@ -189,10 +189,19 @@ function getTagColor(tag: string): string {
 .tag-teal   { background: var(--tag-teal-bg);   color: var(--tag-teal-text); }
 
 /* ─── Prose Summary Styles ─── */
+.prose-summary :global(p) {
+  margin-bottom: 0.65rem;
+}
+.prose-summary :global(p:last-child) {
+  margin-bottom: 0;
+}
 .prose-summary :global(ul) {
   padding-left: 1.2rem;
-  margin-top: 0.75rem;
+  margin-top: 0.25rem;
   margin-bottom: 0.75rem;
+}
+.prose-summary :global(ul:last-child) {
+  margin-bottom: 0;
 }
 .prose-summary :global(li) {
   margin-bottom: 0.3rem;
@@ -200,5 +209,17 @@ function getTagColor(tag: string): string {
 .prose-summary :global(strong) {
   color: var(--text);
   font-weight: 600;
+}
+.prose-summary :global(em) {
+  font-style: italic;
+  color: var(--text-tertiary);
+}
+.prose-summary :global(a) {
+  color: var(--accent);
+  font-weight: 500;
+}
+.prose-summary :global(a:hover) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 </style>

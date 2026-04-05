@@ -69,20 +69,31 @@ for (let i = 0; i < lines.length; i++) {
       currentCard.why = line.replace('**Why it matters to you:**', '').trim();
     } else if (line.startsWith('**Why it matters:**')) {
       currentCard.why = line.replace('**Why it matters:**', '').trim();
-    } else if (line.length > 0 && !line.startsWith('---')) {
+    } else if (!line.startsWith('---')) {
+      // Preserve empty lines so marked.parse() gets proper paragraph breaks
       currentCard.summary.push(line);
     }
   } else if (currentSection) {
-    if (line.length > 0 && !line.startsWith('---')) {
+    if (!line.startsWith('---')) {
+      // Preserve empty lines for proper markdown section separation
       currentSection.extraText.push(line);
     }
   } else {
-    if (line.length > 0 && !line.startsWith('---') && !line.startsWith('# ')) {
+    if (!line.startsWith('---') && !line.startsWith('# ')) {
       introText.push(line);
     }
   }
 }
 if (currentCard && currentSection) currentSection.cards.push(currentCard);
+
+// Helper to trim leading/trailing empty lines from an array
+function trimLines(arr: string[]): string[] {
+  let start = 0;
+  while (start < arr.length && arr[start].trim() === '') start++;
+  let end = arr.length - 1;
+  while (end >= start && arr[end].trim() === '') end--;
+  return arr.slice(start, end + 1);
+}
 ---
 <BaseLayout title={`${post.data.title} — Morning Brief`}>
   <article class="container digest-page animate-fade-in">
@@ -95,8 +106,8 @@ if (currentCard && currentSection) currentSection.cards.push(currentCard);
       {post.data.description && <p class="digest-header__desc">{post.data.description}</p>}
     </header>
 
-    {introText.length > 0 && (
-      <div class="prose intro-text" set:html={marked.parse(introText.join('\n'))}></div>
+    {trimLines(introText).length > 0 && (
+      <div class="prose intro-text" set:html={marked.parse(trimLines(introText).join('\n'))}></div>
     )}
 
     <div class="sections">
@@ -109,8 +120,8 @@ if (currentCard && currentSection) currentSection.cards.push(currentCard);
             <h2 class="topic-section__label">{section.title}</h2>
           </div>
           
-          {section.extraText.length > 0 && (
-            <div class={`prose section-extra-text ${isTLDR ? 'tldr-prose' : ''}`} set:html={marked.parse(section.extraText.join('\n'))}></div>
+          {trimLines(section.extraText).length > 0 && (
+            <div class={`prose section-extra-text ${isTLDR ? 'tldr-prose' : ''}`} set:html={marked.parse(trimLines(section.extraText).join('\n'))}></div>
           )}
 
           {section.cards.length > 0 && (
@@ -121,7 +132,7 @@ if (currentCard && currentSection) currentSection.cards.push(currentCard);
                 url={card.url}
                 source={card.sourceText}
                 score={card.score}
-                summary={card.summary.join('\n')}
+                summary={trimLines(card.summary).join('\n')}
                 why={card.why}
                 tags={card.tags}
               />
@@ -262,6 +273,35 @@ if (currentCard && currentSection) currentSection.cards.push(currentCard);
 
 /* ─── Global Prose ─── */
 .prose p { margin-bottom: 1rem; }
+.prose p:last-child { margin-bottom: 0; }
 .prose a { color: var(--accent); font-weight: 500; }
 .prose a:hover { text-decoration: underline; text-underline-offset: 2px; }
+.prose strong { color: var(--text); font-weight: 700; }
+.prose em { font-style: italic; }
+
+/* Ensure proper spacing between p followed by ul */
+.prose p + ul { margin-top: -0.5rem; }
+
+/* ─── Section Extra Text (Further Reading etc.) ─── */
+.section-extra-text p {
+  margin-bottom: 0.35rem;
+}
+.section-extra-text p strong {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.01em;
+}
+.section-extra-text p:first-child strong {
+  margin-top: 0;
+}
+.section-extra-text ul {
+  margin-bottom: 0.5rem;
+}
+.section-extra-text li {
+  margin-bottom: 0.25rem;
+}
+.section-extra-text a {
+  font-weight: 500;
+}
 </style>

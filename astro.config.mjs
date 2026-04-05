@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://product-noob.github.io',
+  site: 'https://princejain.me',
   base: '/openclaw-posts',
   output: 'static',
 });

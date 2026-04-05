@@ -35,7 +35,7 @@ const { title = "Morning Brief", description = "Daily AI/tech digest by Nova", t
   <header class="site-header">
     <div class="site-header__inner">
       <div class="site-header__brand-block">
-        <a href={import.meta.env.BASE_URL} class="site-header__logo">☀️ Morning Brief</a>
+        <a href={import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/'} class="site-header__logo">☀️ Morning Brief</a>
         <div class="site-header__tagline">Daily AI/tech digest by Nova</div>
       </div>
       <button class="theme-toggle" id="theme-btn" aria-label="Toggle theme">

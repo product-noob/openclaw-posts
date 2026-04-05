@@ -1,0 +1,267 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+import { marked } from 'marked';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// Parse markdown into structured sections
+const lines = post.body.split('\n');
+
+let introText = [];
+let sections = [];
+let currentSection = null;
+let currentCard = null;
+
+for (let i = 0; i < lines.length; i++) {
+  const line = lines[i].trim();
+  
+  if (line.startsWith('## ')) {
+    if (currentCard && currentSection) currentSection.cards.push(currentCard);
+    currentCard = null;
+    currentSection = { title: line.replace('##', '').trim(), cards: [], extraText: [] };
+    sections.push(currentSection);
+    continue;
+  }
+  
+  if (line.startsWith('### ')) {
+    if (currentCard && currentSection) currentSection.cards.push(currentCard);
+    currentCard = {
+      title: line.replace('###', '').trim(),
+      url: '#',
+      sourceText: 'Article',
+      tags: [],
+      score: '',
+      summary: [],
+      why: ''
+    };
+    continue;
+  }
+  
+  if (currentCard) {
+    if (line.startsWith('**Source:**')) {
+      const parts = line.split('|');
+      const sourcePart = parts[0] || '';
+      const tagsPart = parts[1] || '';
+      
+      const urlMatch = sourcePart.match(/https?:\/\/[^\s]+/);
+      if (urlMatch) {
+         currentCard.url = urlMatch[0];
+         try {
+            currentCard.sourceText = new URL(currentCard.url).hostname.replace('www.', '');
+         } catch(e) {}
+      }
+      
+      const tagsMatch = tagsPart.match(/#(\w+)/g);
+      if (tagsMatch) {
+         currentCard.tags = tagsMatch.map(t => t.replace('#', ''));
+      }
+    } else if (line.startsWith('**Why it matters to you:**')) {
+      currentCard.why = line.replace('**Why it matters to you:**', '').trim();
+    } else if (line.startsWith('**Why it matters:**')) {
+      currentCard.why = line.replace('**Why it matters:**', '').trim();
+    } else if (line.length > 0 && !line.startsWith('---')) {
+      currentCard.summary.push(line);
+    }
+  } else if (currentSection) {
+    if (line.length > 0 && !line.startsWith('---')) {
+      currentSection.extraText.push(line);
+    }
+  } else {
+    if (line.length > 0 && !line.startsWith('---') && !line.startsWith('# ')) {
+      introText.push(line);
+    }
+  }
+}
+if (currentCard && currentSection) currentSection.cards.push(currentCard);
+---
+<BaseLayout title={`${post.data.title} — Morning Brief`}>
+  <article class="container digest-page animate-fade-in">
+    
+    <header class="digest-header">
+      <time class="digest-header__date">
+        {post.data.date ? post.data.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : post.id.replace('.md','')}
+      </time>
+      <h1 class="digest-header__title">{post.data.title}</h1>
+      {post.data.description && <p class="digest-header__desc">{post.data.description}</p>}
+    </header>
+
+    {introText.length > 0 && (
+      <div class="prose intro-text" set:html={marked.parse(introText.join('\n'))}></div>
+    )}
+
+    <div class="sections">
+      {sections.map(section => {
+        const isTLDR = section.title.toLowerCase().includes('tl;dr');
+        return (
+        <section class={`topic-section ${isTLDR ? 'tldr-section' : ''}`} id={section.title.replace(/[^\w]+/g, '-').toLowerCase()}>
+          
+          <div class="topic-section__header">
+            <h2 class="topic-section__label">{section.title}</h2>
+          </div>
+          
+          {section.extraText.length > 0 && (
+            <div class={`prose section-extra-text ${isTLDR ? 'tldr-prose' : ''}`} set:html={marked.parse(section.extraText.join('\n'))}></div>
+          )}
+
+          {section.cards.length > 0 && (
+          <div class="cards-grid">
+            {section.cards.map(card => (
+              <ArticleCard 
+                title={card.title}
+                url={card.url}
+                source={card.sourceText}
+                score={card.score}
+                summary={card.summary.join(' ')}
+                why={card.why}
+                tags={card.tags}
+              />
+            ))}
+          </div>
+          )}
+        </section>
+        );
+      })}
+    </div>
+
+  </article>
+</BaseLayout>
+
+<style>
+/* ─── Digest Header ─── */
+.digest-header {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.digest-header__date {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.digest-header__title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.digest-header__desc {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ─── Intro Text ─── */
+.intro-text {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* ─── Section Headers ─── */
+.topic-section { margin-bottom: 2.5rem; }
+.topic-section__header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+.topic-section__label {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+/* ─── Section Prose ─── */
+.section-extra-text {
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+}
+.prose ul {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+.prose li {
+  margin-bottom: 0.5rem;
+}
+.prose li p {
+  margin-bottom: 0;
+}
+
+/* ─── TL;DR Section ─── */
+.tldr-section {
+  background: var(--accent-light);
+  padding: 1.5rem 1.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  margin-bottom: 2.5rem;
+  box-shadow: 0 4px 24px rgba(79, 70, 229, 0.08);
+}
+.tldr-section .topic-section__header {
+  border-bottom-color: var(--accent);
+  border-bottom-width: 2px;
+  margin-bottom: 1rem;
+}
+.tldr-section .topic-section__label {
+  color: var(--accent);
+}
+.tldr-prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.tldr-prose li {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  padding-left: 1rem;
+  border-left: 3px solid var(--accent);
+  transition: border-color 0.15s;
+}
+.tldr-prose li:hover {
+  border-left-color: var(--accent-hover);
+}
+.tldr-prose li strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.tldr-prose a {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ─── Cards Grid ─── */
+.cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ─── Global Prose ─── */
+.prose p { margin-bottom: 1rem; }
+.prose a { color: var(--accent); font-weight: 500; }
+.prose a:hover { text-decoration: underline; text-underline-offset: 2px; }
+</style>

@@ -1,0 +1,204 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  title: string;
+  url: string;
+  source: string;
+  score?: string;
+  summary: string;
+  why?: string;
+  tags: string[];
+}
+const { title, url, source, score = "", summary, why, tags } = Astro.props;
+
+let scoreClass = '';
+const scoreVal = parseFloat(score);
+if (!isNaN(scoreVal)) {
+    if (scoreVal >= 8) scoreClass = 'score-badge--high';
+    else if (scoreVal >= 6) scoreClass = 'score-badge--mid';
+}
+
+// Map tags to color classes
+function getTagColor(tag: string): string {
+  const t = tag.toLowerCase();
+  if (t.includes('agent') || t.includes('mcp')) return 'tag-purple';
+  if (t.includes('claude') || t.includes('anthropic')) return 'tag-blue';
+  if (t.includes('code') || t.includes('tool')) return 'tag-green';
+  if (t.includes('youtube') || t.includes('video')) return 'tag-orange';
+  if (t.includes('model') || t.includes('ai')) return 'tag-red';
+  if (t.includes('dispatch') || t.includes('computer')) return 'tag-teal';
+  return '';
+}
+---
+<article class="article-card">
+  <div class="article-card__meta">
+    <span class="source-badge">{source}</span>
+    <span class="meta-dot">·</span>
+    <a class="read-link" href={url} target="_blank" rel="noopener noreferrer">Read source ↗</a>
+    {score && <span class={`score-badge ${scoreClass}`}>{score}</span>}
+  </div>
+
+  <h3 class="article-card__title">
+    <a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
+  </h3>
+
+  <div class="article-card__summary prose-summary" set:html={marked.parse(summary)}></div>
+
+  {why && (
+    <div class="article-card__why">
+      <svg class="why-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div>
+        <span class="why-label">Why it matters</span>
+        <span class="why-text">{why}</span>
+      </div>
+    </div>
+  )}
+
+  {tags.length > 0 && (
+    <div class="article-card__tags">
+      {tags.map(tag => (
+        <span class={`topic-tag ${getTagColor(tag)}`}>{tag}</span>
+      ))}
+    </div>
+  )}
+</article>
+
+<style>
+/* ─── Card Meta ─── */
+.article-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+.source-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.meta-dot {
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+}
+.read-link {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  transition: color 0.15s;
+}
+.read-link:hover { color: var(--accent); }
+.score-badge {
+  margin-left: auto;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: var(--surface-raised);
+  color: var(--text-tertiary);
+}
+.score-badge--high { color: #16A34A; background: var(--tag-green-bg); }
+.score-badge--mid { color: #D97706; background: var(--tag-orange-bg); }
+
+/* ─── Card Title ─── */
+.article-card__title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.article-card__title a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.article-card__title a:hover {
+  color: var(--accent);
+}
+
+/* ─── Card Summary ─── */
+.article-card__summary {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 0.85rem;
+}
+
+/* ─── Why It Matters ─── */
+.article-card__why {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: linear-gradient(to right, var(--accent-light), transparent);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.7rem 0.85rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.55;
+  align-items: flex-start;
+}
+.why-icon {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.why-label {
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.why-text {
+  color: var(--text-secondary);
+}
+
+/* ─── Tags ─── */
+.article-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.topic-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 0.2rem 0.55rem;
+  white-space: nowrap;
+  background: var(--surface-raised);
+  color: var(--text-tertiary);
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s;
+}
+.topic-tag:hover {
+  opacity: 0.8;
+}
+.tag-purple { background: var(--tag-purple-bg); color: var(--tag-purple-text); }
+.tag-blue   { background: var(--tag-blue-bg);   color: var(--tag-blue-text); }
+.tag-green  { background: var(--tag-green-bg);  color: var(--tag-green-text); }
+.tag-orange { background: var(--tag-orange-bg); color: var(--tag-orange-text); }
+.tag-red    { background: var(--tag-red-bg);    color: var(--tag-red-text); }
+.tag-teal   { background: var(--tag-teal-bg);   color: var(--tag-teal-text); }
+
+/* ─── Prose Summary Styles ─── */
+.prose-summary :global(ul) {
+  padding-left: 1.2rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.prose-summary :global(li) {
+  margin-bottom: 0.3rem;
+}
+.prose-summary :global(strong) {
+  color: var(--text);
+  font-weight: 600;
+}
+</style>
